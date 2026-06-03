@@ -14,6 +14,9 @@ Test-analysis.R
 Scripts/hormone_merge.R
 Scripts/CSI_calculation_for_MShair.R
 Scripts/MSIndex_automated.R
+Scripts/Tshortterm.R
+Scripts/Cshortterm.R
+Scripts/combine2.R
 
 ### Intellij+iml ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, 
