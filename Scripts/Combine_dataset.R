@@ -30,7 +30,7 @@ horm_df_base <- read.csv("/Users/mariagranell/Repositories/hormones/hormone_hair
 weight_extraction <- read.csv("/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/Data/weight_extraction.csv")
 # male services data
 ms <- read.csv("/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/MSIndex_individual_com_shortterm.csv")
-# rank data, that includes intformation of rank reversals
+# rank data, that includes information of rank reversals
 rank <- read.csv("/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/ELO_dartingdate_maleservices_hair_reversals.csv") %>% rename(AnimalCode = IDIndividual1)
 # csi data
 csi <- read.csv("/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/CSI_maleservices_hair_3months.csv")
@@ -92,7 +92,7 @@ df <- left_join(df, first_father_dates, by =c("AnimalCode", "StartDate_mb", "End
          )) %>%
   left_join(., n_males, by=c("AnimalCode", "DartingDate", "DartingGroup")) %>%
   # add the rew rank
-  mutate(elot = scale(elo12) - scale(rank_trajectory),
+  mutate(elot = scale(elo12) + scale(rank_trajectory),
          topMale = ifelse(elo12 == 1, "Dominant", "Subordinate"),
          trajectory = case_when(
            rank_trajectory > 0 ~ "decreasing",
@@ -106,3 +106,5 @@ df <- left_join(df, first_father_dates, by =c("AnimalCode", "StartDate_mb", "End
 
 # demographic table
 table(df$DartingSeason)
+
+ggscatterstats(df %>% distinct(), x=Testosterone, y = Cortisol)

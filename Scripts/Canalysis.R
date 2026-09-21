@@ -118,14 +118,6 @@ plot(simulateResiduals(bge_model))
 predCbge <- ggpredict(bge_model, terms = "BGE_prop") %>% as.data.frame() %>% mutate( Cortisol_pred = exp(predicted), Cortisol_low = exp(conf.low), Cortisol_high = exp(conf.high))
 write.csv(predCbge, "/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/predCbge", row.names = F)
 
-ggplot(df_model, aes(x = BGE_prop, y = log_cortisol,  colour = DartingSeason)) +
-  geom_point(aes(shape= DartingSeason),size =6, alpha = 0.7) +
-  geom_smooth(method = "lm", se = TRUE) +
-  ggpubr::stat_cor( label.x.npc = "left") +
-  #scale_colour_viridis_c(option = "D", name = "elot") +
-  theme_classic() +
-  theme(legend.position = "right", text = element_text(size = 18))
-
 # SENTINELLING, no effect
 vig_model <- lmer(log_cortisol ~ Vig_prop + elot + zCSI + DartingSeason + DartingGroup +(1|AnimalCode),
                   data = df_model)
@@ -138,7 +130,7 @@ plot(allEffects(vig_model))
 predCvig <- ggpredict(vig_model, terms = "Vig_prop") %>% as.data.frame() %>% mutate( Cortisol_pred = exp(predicted), Cortisol_low = exp(conf.low), Cortisol_high = exp(conf.high))
 write.csv(predCvig, "/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/predCvig", row.names = F)
 
-ggplot(df_model, aes(x = Vig_prop, y = Cortisol, colour = elot)) +
+ggplot(df_model, aes(x = Vig_prop, y = Cortisol, colour = elo12)) +
   geom_point(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", se = TRUE) +
   ggpubr::stat_cor( label.x.npc = "left") +
@@ -159,7 +151,7 @@ summary(m0_c)
 Anova(m0_c)
 plot(simulateResiduals(m0_c))
 print(standardized_effects(m0_c), n = Inf)     # effect sizes
-null_model_c <- lmer(log_cortisol ~ elot + DartingSeason + DartingGroup + (1|AnimalCode), data = df_model_crs)
+null_model_c <- lmer(log_cortisol ~ elo12 + DartingSeason + DartingGroup + (1|AnimalCode), data = df_model_crs)
 
 anova(m0_c, null_model_c)
 summary(null_model_c)
@@ -194,3 +186,21 @@ ggplot(df_model_crs, aes(x = Crs_prop, y = Cortisol)) +
 # but is intresting that ladies do not care about rank. On the other hand, BGC seems to be mediated by cortisol in where
 # maybe only the males with nice psiotion /calmnes/health can provide such services and that is why females indeed choose them
 # this puts to question once mrpe what is the benefit of boing a top male in vervets. becuase they definetly care about it!
+
+## FATHERS CHECK
+# modeled data
+df_model_mating <- df_model %>% filter(DartingSeason == "dartingMating")
+
+m_null_mating <- lm(log_cortisol ~ elot + DartingGroup, data = df_model_mating)
+m_father <- lm(log_cortisol ~ Father * elot + DartingGroup, data = df_model_mating)
+anova(m_null_mating, m_father)
+{ summary(m_father)
+  plot_model(m_father, vline.color="darkred", show.values=TRUE, show.p=F); Anova(m_father)
+  plot(allEffects(m_father))
+  print(standardized_effects(m_father), n = Inf)     # effect sizes
+
+  # model checks look good
+  res<-simulateResiduals(m_father)
+  plot(res)
+  testUniformity(res)
+  testDispersion(res) }

@@ -17,6 +17,7 @@ Scripts/MSIndex_automated.R
 Scripts/Tshortterm.R
 Scripts/Cshortterm.R
 Scripts/combine2.R
+Scripts/Injury_conflict_rate.R
 
 ### Intellij+iml ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, 
