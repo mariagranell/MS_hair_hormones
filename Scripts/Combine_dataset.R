@@ -4,11 +4,11 @@
 # Author: mgranellruiz
 # Goal: Combine differet sources of data to calculate the variables to use in the analysis of hair hormones and male services
 
-# I calculated MS with the MSI: /Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/Scripts/MSIndex_automated.R with the indvidual function and the com output
+# I calculated MS with the MSI: /Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/Scripts/MSIndex_hair_hormones.R with the indvidual function
 # using data for the 3 months prior darting date.
-# I calculated CSI with: /Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/Scripts/CSI_calculation_for_MShair.R
+# I calculated CSI with the social indices package, full script: /Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/Scripts/CSI_calculation_for_MShair.R
 # using data for the 3 months prior the darting date.
-# I calculated rank with: /Users/mariagranell/Repositories/elo-sociality/elo/Hierarchies_for_all_groups_best.R
+# I calculated rank with the elorating package, full script: /Users/mariagranell/Repositories/elo-sociality/elo/Hierarchies_for_all_groups_best.R
 # using 12 months of data prior the darting date, the week before and the week after, for a reliable hierarchy.
 # ---------------
 
@@ -59,7 +59,6 @@ df <- horm_df_base %>%
   filter(!is.na(elo12)) %>%
   # transform hormonal data from ng/ml to ng/g. value ng/ml multiplied by final resuspention volume (100ul of methanol) divided by grams of hair weighted
   mutate(across(all_of(c("Cortisone", "Cortisol", "DHEA", "Androstedione", "Testosterone", "Progesterone")), ~ (.x * 0.1) / (weight / 1000)))
-  #pivot_wider(names_from = hormones, values_from = concentration, values_fn = ~ mean(.x, na.rm = TRUE)) %>% distinct()
 
 # calculate first dates fathers
 first_father_dates <- df %>%
@@ -106,5 +105,4 @@ df <- left_join(df, first_father_dates, by =c("AnimalCode", "StartDate_mb", "End
 
 # demographic table
 table(df$DartingSeason)
-
 ggscatterstats(df %>% distinct(), x=Testosterone, y = Cortisol)

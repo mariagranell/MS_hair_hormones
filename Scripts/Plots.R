@@ -1,8 +1,8 @@
 # ---------------
-# Title:
-# Date: 
+# Title: Plots
+# Date: 20-may
 # Author: mgranellruiz
-# Goal: 
+# Goal: Create the plots to visualize the fundings
 # ---------------
 
 # library ---------------------
@@ -24,9 +24,7 @@ library(ggtext)
 setwd("/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/Scripts")
 
 # colours ---------------------
-# nice yellow = #fcba03
 baby = "#03befc"; mating = "#fc034e"
-#baby   = "#F781BF"; mating = "#08306B"
 
 point_size = 6
 font_size = 18
@@ -60,7 +58,6 @@ cseason <- ggplot(df, aes(x = DartingSeason, y = Cortisol, fill = DartingSeason,
   theme(legend.position = "none", text = element_text(size = 18))
 
 tseason + cseason + plot_annotation(tag_levels = "A")
-
 
 # as a trend with elot raw data
 tseason <- ggplot(df, aes(x = elot, y = Testosterone, colour = DartingSeason)) +
@@ -116,7 +113,6 @@ cseason <- ggplot() +
   theme(legend.position = "none", text = element_text(size = font_size))
 
 tseason + cseason + plot_annotation(tag_levels = "A")
-
 
 #### MALE SERVICES
 {col_alarm = "#F5AF4DFF"; col_alarm_light = "#F5AF4D"; col_alarm_dark = "#DA710A"
@@ -368,7 +364,7 @@ ggplot(cor_df, aes(x = var1, y = var2, fill = r)) +
   )} # with seasons
 
 
-## Fahter plots
+## Father plots, not enough data to pursue this testing.
 
 # seasons and hormones
 df %>% filter(DartingSeason == "Mating") %>% group_by(Father) %>%

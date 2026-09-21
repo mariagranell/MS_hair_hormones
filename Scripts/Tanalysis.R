@@ -100,7 +100,6 @@ anova(null_model, alarm_model) # no addition
   predTalarm <- ggpredict(alarm_model, terms = "AlarmMP_prop") %>% as.data.frame() %>% mutate( Cortisol_pred = exp(predicted), Cortisol_low = exp(conf.low), Cortisol_high = exp(conf.high))
   write.csv(predTalarm, "/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/predTalarm", row.names = F)
 
-
   # model checks look good
   res<-simulateResiduals(alarm_model)
   plot(res)
@@ -108,7 +107,7 @@ anova(null_model, alarm_model) # no addition
   testDispersion(res) }
 
 bge_model <- lmer(log_testosterone ~  BGE_prop + elot + DartingSeason + DartingGroup + (1|AnimalCode), data = df_model)
-anova(null_model, bge_model) # todo trend, but model not supported
+anova(null_model, bge_model) # trend, but model not supported
 { summary(bge_model)
   plot_model(bge_model, vline.color="darkred", show.values=TRUE, show.p=F); Anova(bge_model)
   plot(allEffects(bge_model))
@@ -118,7 +117,6 @@ anova(null_model, bge_model) # todo trend, but model not supported
 
   predTbge <- ggpredict(bge_model, terms = "BGE_prop") %>% as.data.frame() %>% mutate( Cortisol_pred = exp(predicted), Cortisol_low = exp(conf.low), Cortisol_high = exp(conf.high))
   write.csv(predTbge, "/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/predTbge", row.names = F)
-
 
   # model checks look good
   res<-simulateResiduals(bge_model)
@@ -136,13 +134,11 @@ anova(null_model, vig_model) # no addition
   predTvig <- ggpredict(vig_model, terms = "Vig_prop") %>% as.data.frame() %>% mutate( Cortisol_pred = exp(predicted), Cortisol_low = exp(conf.low), Cortisol_high = exp(conf.high))
   write.csv(predTvig, "/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/predTvig", row.names = F)
 
-
   # model checks look good
   res<-simulateResiduals(vig_model)
   plot(res)
   testUniformity(res)
   testDispersion(res) }
-
 
 # c for crossing, there is one group AK that do not cross the river so we cannot calculate crossing behaviour for them
 df_model_c <- df %>% dplyr::select(Testosterone, zCSI, elo12, Tenure, Father, DartingSeason, AnimalCode, DartingGroup,
@@ -190,7 +186,7 @@ anova(null_model_c, crs_model_c) # no addition
   testUniformity(res)
   testDispersion(res) }
 
-#### Fathers check
+#### Fathers check, not enouhg data to pursue this testing
 
 # modeled data
 df_model_mating <- df_model %>% filter(DartingSeason == "dartingMating")

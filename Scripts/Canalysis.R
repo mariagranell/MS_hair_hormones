@@ -104,7 +104,7 @@ ggplot(df_model, aes(x = AlarmMP_prop, y = Cortisol)) +
 predCalarm <- ggpredict(alarm_model, terms = "AlarmMP_prop") %>% as.data.frame() %>% mutate( Cortisol_pred = exp(predicted), Cortisol_low = exp(conf.low), Cortisol_high = exp(conf.high))
 write.csv(predCalarm, "/Users/mariagranell/Repositories/hormones/hormone_hair/MS-hair/OutputFiles/predCalarm", row.names = F)
 
-# BGEE, more BGE less cortisol
+# BGE, more BGE less cortisol
 bge_model <- lmer(log_cortisol ~ BGE_prop + elot + zCSI + DartingSeason + DartingGroup +(1|AnimalCode),
            data = df_model)
 
@@ -180,14 +180,7 @@ ggplot(df_model_crs, aes(x = Crs_prop, y = Cortisol)) +
   ggpubr::stat_cor( label.x.npc = "left") +
   theme_classic()
 
-# Basically iy seems that you can add the control variables or not. And then the story is, we tested for all this. We also investigated fathers and non-fathers in
-# both cases and there is robust hints for male carrers but the sample size is not enough to be certain about this
-# it seems that in both cases rank is really relevant for a males phyisology, specially when considering the trajectory
-# but is intresting that ladies do not care about rank. On the other hand, BGC seems to be mediated by cortisol in where
-# maybe only the males with nice psiotion /calmnes/health can provide such services and that is why females indeed choose them
-# this puts to question once mrpe what is the benefit of boing a top male in vervets. becuase they definetly care about it!
-
-## FATHERS CHECK
+## FATHERS CHECK, not enough data to support this testing
 # modeled data
 df_model_mating <- df_model %>% filter(DartingSeason == "dartingMating")
 
